@@ -1,0 +1,19 @@
+{
+  "name": "serveMe",
+  "version": "0.1.05",
+  "description": "Simple node web server.",
+  "contributors": ["Miguel Fernandez <miguel_3c@hotmail.com>"],
+  "license": "GPL",
+  "main": "bin/server.js",
+  
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muit/serveMe"
+  },
+
+  "dependencies": {
+  },
+  "devDependencies" : {
+  },
+  "private": false
+}
