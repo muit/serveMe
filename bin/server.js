@@ -1,4 +1,4 @@
-if(!Utyl) require("../source/utyl/utyl.js");
+if(typeof Utyl == "undefined") require("../source/utyl/utyl.js");
 http = require("../source/http_server.js");
 
 //*******************************
