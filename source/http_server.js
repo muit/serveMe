@@ -7,6 +7,7 @@
 
 var urlParser = require('url');
 var fs = require('fs');
+var mime = require("./mime.js");
 
 exports.start = function(port, options)
 {
@@ -100,13 +101,8 @@ HttpServer.prototype.serveFile = function(status, file, response){
         path = 'public' + file;
     
     function writeResponse(data, response){
-        var type = 'text/html';
-
-        if (file.endsWith('.js'))
-            type = 'text/javascript';
-
-        if (file.endsWith('.css'))
-            type = 'text/css';
+        var type = 'text/plane';
+        type = mime.get(file.split(".").pop());
 
         response.writeHead(status, {
             'Content-Length': data.length,
