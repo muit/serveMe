@@ -1,5 +1,5 @@
 exports.get = function(extension){
-    return mime[extension];
+    return mime[extension] || "text/plain";
 }
 
 var mime = {

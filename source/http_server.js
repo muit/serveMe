@@ -19,65 +19,94 @@ exports.start = function(port, options)
 //*******************************
 
 var HttpServer = function(port, options){
-    var self = this;
-
-    if (options == undefined)
+    if (!options){
         options = {
             secure: false,
             debug: false,
+            home: "index.html",
+            key: "./keys/key.pem",
+            cert: "./keys/cert.pem",
+            error: {
+                404: "404.html", 
+                500: "500.html",
+            }
         }
-    
-    if(options.debug == undefined)
-        this.debug = false;
-    else
-        this.debug = options.debug;
-    
-    this.files = {};
+    }
+    if(!options.error){
+        options.error = {
+            404: "404.html", 
+            500: "500.html",
+        }
+    }
+    if(!options.debug) options.debug = false;
+    if(!options.secure) options.secure = false;
 
-    if (options.secure == undefined || !options.secure){
+    this.options = options;
+    var self = this;
+
+    if (!options.secure){
         var http = require('http');
-        var server = http.createServer(function(request, response){
+
+        this.server = http.createServer(function(request, response){
             self.serve(self, request, response);
         });
     }
     else
     {
-        var options = {
-            key: fs.readFileSync("keys/key.pem"),
-            cert: fs.readFileSync("keys/cert.pem")
-        };
+        if(!options.key) throw new Error("ServerMe: Key path is empty.");
+        if(!options.cert) throw new Error("ServerMe: Certificate path is empty.");
+
         var https = require('https');
-        var server = https.createServer(options, function(request, response){
+
+        var options = {
+            key: fs.readFileSync(options.key),
+            cert: fs.readFileSync(options.cert),
+        };
+        this.server = https.createServer(options, function(request, response){
             self.serve(self, request, response);
         });
     }
 
-    
+    this.server.on('error', function (e) {
+        // Handle Http error
+        throw new Error("An error ocurred in the server: "+e);
+    });
 
-    server.listen(port, function() {
-        console.log('Http server running at port: ' + port);
+    this.server.listen(port, function() {
+        console.log('HttpServer: Running at port:   ' + port);
+        console.log('HttpServer: Secure mode(https) ' + ((options.secure)?"enabled":"disabled"));
+        console.log('HttpServer: Debug mode         ' + ((options.debug)?"enabled":"disabled"));
     });
 }
 
-//*******************************
-// Serve files or code
+/******************************
+ * Stop server
+ ******************************/
+ HttpServer.prototype.stop = function(){
+    this.server.close();
+ }
+
+/******************************
+ * Save files if not debugging
+ ******************************/
+HttpServer.prototype.files = {};
+
+/******************************
+ * Serve files or code
+ ******************************/
 HttpServer.prototype.serve = function(self, request, response){
     var url = urlParser.parse(request.url, true);
-
+    var client = request.headers['X-Forwarded-For'] || request.connection.remoteAddress;
+    console.log("\nServing "+url.pathname+" to "+client);
     if (url.pathname == '/')
     {
         self.serveHome(self, request, response);
         return;
     }
-    if (url.pathname == '/serve')
-    {
-        // will serve websocket
-        return;
-    }
     // avoid going out of the home dir
     if (url.pathname.contains('..'))
     {
-        self.serveFile(404, 'not_found.html', response);
+        self.serveError(404, response);
         return;
     }
     if (url.pathname.startsWith('/src/'))
@@ -91,43 +120,72 @@ HttpServer.prototype.serve = function(self, request, response){
 //*******************************
 // Serve index.html
 HttpServer.prototype.serveHome = function(self, request, response){
-    self.serveFile(200, '/index.html', response);
+    self.serveFile(200, '/'+this.options.home, response);
 }
 
 //*******************************
 // Serve js or css
 HttpServer.prototype.serveFile = function(status, file, response){
     var self = this, 
-        path = 'public' + file;
+        path = './public' + file;
     
-    function writeResponse(data, response){
-        var type = 'text/plane';
-        type = mime.get(file.split(".").pop());
-
-        response.writeHead(status, {
-            'Content-Length': data.length,
-            'Content-Type': type
-        });
-
-        response.end(data);
-    }
-
-    if(this.debug || this.files[path] == undefined){
+    if(this.options.debug || this.files[path] == undefined){
         fs.readFile(path, function(err, data) {
-            if (err)
-            {
-                response.writeHead(404, {
-                    'Content-Type': 'text/plain'
-                });
-                response.end('Page not found');
+            if (err){
+                self.serveError(404, response);
+
+                console.log("  Couldn't serve file. 404.");
                 return;
             }
 
-            if(!self.debug) self.files[path] = data;
-            writeResponse(data, response);
+            if(!self.options.debug){
+                self.files[path] = data;
+            }
+            console.log("  Served file from disk.");
+            writeResponse(status, file, data, response);
         });
     }
     else{
-        writeResponse(this.files[path], response);
+        console.log("  Served file from cache.");
+        writeResponse(status, file, this.files[path], response);
     }
 }
+
+HttpServer.prototype.serveError = function(status, response){
+    if(!this.options.error[status])
+        throw new Error("The error page "+status+" is not defined.\nYou must set 'options.error["+status+"]' to something!");
+    
+    var self = this,
+        file = this.options.error[status],
+        path = './public/error/' + file;
+    
+    if(this.options.debug || this.files[path] == undefined){
+        fs.readFile(path, function(err, data) {
+            if (err)
+            {
+                writeResponse(500, "","ERROR: 500 - Internal server error.", response);
+                throw new Error(status+" error page may not exist.\nSpecified path: "+path);
+            }
+
+            if(!self.options.debug) 
+                self.files[path] = data;
+
+            writeResponse(status, file, data, response);
+        });
+    }
+    else{
+        writeResponse(status, file, this.files[path], response);
+    }
+}
+
+function writeResponse(status, file, data, response){
+    var type = mime.get(file.split(".").pop());
+
+    response.writeHead(status, {
+        'Content-Length': data.length,
+        'Content-Type': type
+    });
+
+    response.end(data);
+}
+
