@@ -1,19 +1,28 @@
 {
   "name": "serveMe",
-  "version": "0.1.05",
+  "version": "0.1.5",
   "description": "Simple node web server.",
-  "contributors": ["Miguel Fernandez <miguel_3c@hotmail.com>"],
   "license": "GPL",
   "main": "bin/server.js",
-  
   "repository": {
     "type": "git",
     "url": "https://github.com/muit/serveMe"
   },
-
-  "dependencies": {
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/muit/serveMe/issues"
   },
-  "devDependencies" : {
+  "homepage": "https://github.com/muit/serveMe",
+  "bin": {
+    "serveMe": "server.js"
   },
-  "private": false
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "server",
+    "http",
+    "https"
+  ],
+  "author": "Muitxer <miguel_3c@hotmail.com> (https://github.com/muit)"
 }

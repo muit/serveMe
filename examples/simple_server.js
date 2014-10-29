@@ -1,5 +1,5 @@
-if(typeof Utyl == "undefined") require("../source/utyl/utyl.js");
-http = require("../source/http_server.js");
+if(typeof Utyl == "undefined") require("../lib/utyl/utyl.js");
+var ServeMe = require('../..');
 
 //*******************************
 // HTTP SERVER
@@ -8,8 +8,10 @@ http = require("../source/http_server.js");
 var port = 3000;
 var options = {
     home: "index.html",
+    directory: "./public",
     debug: false,
     secure: false
-}
+};
 
-httpServer = http.start(port, options);
+ServeMe = ServeMe(options, port);
+ServeMe.start();
