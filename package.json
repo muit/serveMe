@@ -1,16 +1,15 @@
 {
   "name": "serve-me",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Simple node web server.",
   "license": "GPL",
-  "main": "bin/server.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/muit/serveMe"
   },
   "homepage": "https://github.com/muit/serveMe",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "keywords": [
     "server",
@@ -20,5 +19,8 @@
     "simple",
     "web"
   ],
-  "author": "Muitxer <miguel_3c@hotmail.com> (https://github.com/muit)"
+  "author": "Muitxer <miguel_3c@hotmail.com> (https://github.com/muit)",
+  "devDependencies" : {
+    "mocha": "2.0.1"
+  }
 }
