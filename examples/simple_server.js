@@ -13,5 +13,12 @@ var options = {
     secure: false
 };
 
+//Server starts
 ServeMe = ServeMe(options, port);
 ServeMe.start();
+
+//Route example
+ServeMe.Routes.add("/", function()
+{
+    return "hello world!";
+});
