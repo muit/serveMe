@@ -18,7 +18,12 @@ ServeMe = ServeMe(options, port);
 ServeMe.start();
 
 //Route example
-ServeMe.Routes.add("/", function()
+ServeMe.Routes.add("/hello", function()
 {
     return "hello world!";
+});
+
+//Event example
+ServeMe.on("http_request", function(){
+    console.log("Hey! One more friend...");
 });
