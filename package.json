@@ -1,6 +1,6 @@
 {
   "name": "serve-me",
-  "version": "0.2.43",
+  "version": "0.2.44",
   "description": "Simple node web server.",
   "license": "GPL",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/muit/serveMe",
   "scripts": {
-    "test": "make test"
+    "test": "node_modules/.bin/mocha"
   },
   "keywords": [
     "server",
@@ -21,6 +21,7 @@
   ],
   "author": "Muitxer <miguel_3c@hotmail.com> (https://github.com/muit)",
   "devDependencies" : {
-    "mocha": "2.0.1"
+    "mocha": "2.0.1",
+    "request": "2.47.0"
   }
 }
