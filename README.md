@@ -74,3 +74,21 @@ Delete a route example:
 ServeMe.Routes.reset("/hello");
 ```
 
+## Events
+
+To add actions to specific events yo can use the ServeMe Events.
+```javascript
+ServeMe.on"event_name", function(data){
+    console.log("I am an event!");
+});
+```
+"event_name" is the name required to select de action wanted.
+
+These are the available events for now:
+  - "http_request": Will be called each http connection.
+  - "error": Will be called when an error appears
+If you want to create your own event, you can activate it with:
+```javascript
+ServeMe.call("event_name");
+```
+
