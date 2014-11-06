@@ -1,14 +1,20 @@
 var request = require('request');
+var expect = require('expect.js');
 
 describe('ServeMe HttpServer',function(){
     var ServeMe;
 
     before(function(done){
-        ServeMe = require("..")();
+        ServeMe = require("..");
+        done();
     });
 
-    it('loads correctly',function(){
-        expect(ServeMe).to.not.throw(Error);
+    it('loads correctly',function(done){
+        ServeMe = ServeMe();
+        expect(ServeMe).not.to.be(undefined);
+        expect(ServeMe.server).not.to.be(undefined);
+
+        done();
     });
 
     after(function ()
@@ -23,9 +29,10 @@ describe('ServeMe Routes',function(){
     before(function(done)
     {
         ServeMe = require("..")();
+        done();
     });
 
-    it('says Hello!', function()
+    it('says Hello!', function(done)
     {
         var port = 3000;
         ServeMe.start(port);

@@ -1,6 +1,6 @@
 {
   "name": "serve-me",
-  "version": "0.2.44",
+  "version": "0.2.46",
   "description": "Simple node web server.",
   "license": "GPL",
   "repository": {
@@ -20,8 +20,11 @@
     "web"
   ],
   "author": "Muitxer <miguel_3c@hotmail.com> (https://github.com/muit)",
-  "devDependencies" : {
-    "mocha": "2.0.1",
-    "request": "2.47.0"
+  "devDependencies": {
+    "mocha":     "2.0.1",
+    "request":   "2.47.0",
+    "expect.js": "^0.3.1"
+  },
+  "dependencies": {
   }
 }
