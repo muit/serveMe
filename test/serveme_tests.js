@@ -10,10 +10,21 @@ describe('ServeMe HttpServer',function(){
         done();
     });
 
-    it('loads correctly',function(done){
+    it('can be loaded',function(done){
         ServeMe = ServeMe();
         expect(ServeMe).not.to.be(undefined);
         expect(ServeMe.server).not.to.be(undefined);
+
+        done();
+    });
+
+    it('can be started',function(done){
+        ServeMe = ServeMe();
+        ServeMe.start(3000);
+
+        expect(ServeMe).not.to.be(undefined);
+        expect(ServeMe.server).not.to.be(undefined);
+        expect(ServeMe.server).not.to.be(null);
 
         done();
     });
@@ -24,6 +35,7 @@ describe('ServeMe HttpServer',function(){
     });
 });
 
+
 describe('ServeMe Routes',function(){
     var ServeMe;
 
@@ -33,7 +45,7 @@ describe('ServeMe Routes',function(){
         done();
     });
 
-    it('adds a route', function(done){
+    it('can add a route', function(done){
         var name = "/testadd",
         callback = function(){
             return "added a route";
@@ -44,14 +56,14 @@ describe('ServeMe Routes',function(){
         done();
     });
 
-    it('gets an uncreated route like undefined', function(done){
+    it('can get an uncreated route', function(done){
         var name = "/testget";
 
         expect(ServeMe.Routes.get(name)).to.be(undefined);
         done();
     });
 
-    it('gets a created route', function(done){
+    it('can get a created route', function(done){
         var name = "/testget",
         callback = function(){
             return "got a route";
@@ -59,6 +71,18 @@ describe('ServeMe Routes',function(){
         ServeMe.Routes.add(name, callback);
 
         expect(ServeMe.Routes.get(name)).to.be(callback);
+        done();
+    });
+
+    it('can reset a route', function(done){
+        var name = "/";
+
+        ServeMe.Routes.add(name, function(){
+            return "got a route";
+        });
+
+        expect(ServeMe.Routes.reset(name)).to.be(true);
+        expect(ServeMe.Routes.get(name)).to.be(undefined);
         done();
     });
 
@@ -82,6 +106,7 @@ describe('ServeMe Routes',function(){
         ServeMe.stop();
     });
 });
+
 
 describe('ServeMe Sessions',function(){
     var ServeMe;
