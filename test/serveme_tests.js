@@ -6,37 +6,34 @@ describe('ServeMe HttpServer',function(){
     var ServeMe;
 
     before(function(done){
-        ServeMe = require("..");
+        ServeMe = require("..")();
         done();
     });
 
-    it('can be loaded',function(done){
-        ServeMe = ServeMe();
+    it('can be loaded',function(done)
+    {
         expect(ServeMe).not.to.be(undefined);
         expect(ServeMe.server).not.to.be(undefined);
 
         done();
     });
 
-    it('can be started',function(done){
-        ServeMe = ServeMe();
-        ServeMe.start(3000);
-
-        expect(ServeMe).not.to.be(undefined);
-        expect(ServeMe.server).not.to.be(undefined);
-        expect(ServeMe.server).not.to.be(null);
-
+    it('can be started',function(done)
+    {
+        expect(ServeMe.start(3000)).not.to.be(null);
         done();
     });
 
     after(function ()
     {
         ServeMe.stop();
+        ServeMe = undefined;
     });
 });
 
 
-describe('ServeMe Routes',function(){
+describe('ServeMe Routes',function()
+{
     var ServeMe;
 
     before(function(done)
@@ -45,7 +42,8 @@ describe('ServeMe Routes',function(){
         done();
     });
 
-    it('can add a route', function(done){
+    it('can add a route', function(done)
+    {
         var name = "/testadd",
         callback = function(){
             return "added a route";
@@ -56,14 +54,16 @@ describe('ServeMe Routes',function(){
         done();
     });
 
-    it('can get an uncreated route', function(done){
+    it('can get an uncreated route', function(done)
+    {
         var name = "/testget";
 
         expect(ServeMe.Routes.get(name)).to.be(undefined);
         done();
     });
 
-    it('can get a created route', function(done){
+    it('can get a created route', function(done)
+    {
         var name = "/testget",
         callback = function(){
             return "got a route";
@@ -74,7 +74,8 @@ describe('ServeMe Routes',function(){
         done();
     });
 
-    it('can reset a route', function(done){
+    it('can reset a route', function(done)
+    {
         var name = "/";
 
         ServeMe.Routes.add(name, function(){
@@ -94,7 +95,8 @@ describe('ServeMe Routes',function(){
             return "Hello World";
         });
 
-        request.get('http://localhost:'+3000+'/hello', function (err, res, body){
+        request.get('http://localhost:'+3000+'/hello', function (err, res, body)
+        {
             expect(res.statusCode).to.equal(200);
             expect(res.body).to.equal("Hello World");
             done();
@@ -104,11 +106,13 @@ describe('ServeMe Routes',function(){
     after(function ()
     {
         ServeMe.stop();
+        ServeMe = undefined;
     });
 });
 
 
-describe('ServeMe Sessions',function(){
+describe('ServeMe Sessions',function()
+{
     var ServeMe;
 
     before(function(done)
@@ -130,7 +134,23 @@ describe('ServeMe Sessions',function(){
         done();
     });
 
-    it('creates a session', function(done){
+    /*
+    it('cant create a session whitout loading Sessions', function(done)
+    {
+        ServeMe = require("..");
+
+        expect(function(){
+            new ServeMe.Session(0, {
+                path:   "/session/login",
+                domain: "localhost"
+            });
+        }).to.throwException();
+
+        done();
+    });*/
+
+    it('can create a session', function(done)
+    {
         var session = new ServeMe.Session(0, {
             path:   "/session/login",
             domain: "localhost"
@@ -140,7 +160,8 @@ describe('ServeMe Sessions',function(){
         done();
     });
 
-    it('created sessions contains correct arguments', function(done){
+    it('created sessions contains correct arguments', function(done)
+    {
         var session = new ServeMe.Session(0, {
             path:   "/session/login",
             domain: "localhost"
@@ -154,5 +175,6 @@ describe('ServeMe Sessions',function(){
     after(function ()
     {
         ServeMe.stop();
+        ServeMe = undefined;
     });
 });

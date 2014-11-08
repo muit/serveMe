@@ -1,7 +1,8 @@
 # Serve-Me
 
+[![NPM](https://nodei.co/npm/serve-me.png?downloadRank=true&stars=true)](https://nodei.co/npm/serve-me/)
+
 [![Build Status](https://travis-ci.org/muit/serveMe.svg)](https://travis-ci.org/muit/serveMe)
-[![NPM Version](https://badge.fury.io/js/serve-me.svg)](http://badge.fury.io/js/serve-me)
 ![Downloads](http://img.shields.io/npm/dm/serve-me.svg)
 
 ServeMe is a [DSL](http://en.wikipedia.org/wiki/Domain-specific_language) for creating simple web applications with nodejs.
@@ -86,7 +87,11 @@ ServeMe.on"event_name", function(data){
 
 These are the available events for now:
   - "http_request": Will be called each http connection.
-  - "error": Will be called when an error appears
+  - "new_session":  Will be called when a new session can be created.
+  - "end_session":  Will be called when an existing session lifetime ends.
+  - "session":      Will be called when an existing session connects.
+  - "error":        Will be called when an error appears.
+
 If you want to create your own event, you can activate it with:
 ```javascript
 ServeMe.call("event_name");
