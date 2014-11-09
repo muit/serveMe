@@ -24,6 +24,14 @@ ServeMe.Routes.add("/hello", function()
 });
 
 //Event example
-ServeMe.on("http_request", function(){
+ServeMe.on("http_request", function()
+{
     console.log("Hey! One more friend...");
+});
+
+//New session event
+ServeMe.on("new_session", function()
+{
+    console.log("Hey! One more friend...");
+    return true;
 });
