@@ -1,8 +1,8 @@
 {
   "name": "serve-me",
   "version": "0.2.51",
-  "description": "Simple node web server.",
-  "license": "GPL",
+  "description": "Simple NodeJs web server API.",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/muit/serveMe"
