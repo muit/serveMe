@@ -50,11 +50,11 @@ describe('ServeMe Routes',function()
         };
         ServeMe.Routes.add(name, callback);
 
-        expect(ServeMe.Routes.hashIds[name]).to.be(callback);
+        expect(ServeMe.Routes._hashIds[name]).to.be(callback);
         done();
     });
 
-    it('can get an uncreated route', function(done)
+    it('can´t get an uncreated route', function(done)
     {
         var name = "/testget";
 
@@ -82,8 +82,23 @@ describe('ServeMe Routes',function()
             return "got a route";
         });
 
-        expect(ServeMe.Routes.reset(name)).to.be(true);
+        expect(function(){
+            ServeMe.Routes.reset(name);
+        }).not.to.throwException();
         expect(ServeMe.Routes.get(name)).to.be(undefined);
+        done();
+    });
+
+    it('can reset all routes', function(done)
+    {
+        ServeMe.Routes.add("foo", function(){
+            return "got a route";
+        });
+
+        expect(function(){
+            ServeMe.Routes.reset("all");
+        }).not.to.throwException();
+        expect(ServeMe.Routes._hashIds).to.be.ok();
         done();
     });
 
@@ -134,9 +149,9 @@ describe('ServeMe Sessions',function()
         done();
     });
 
-    /*
     it('cant create a session whitout loading Sessions', function(done)
     {
+        ServeMe.stop();
         ServeMe = require("..");
 
         expect(function(){
@@ -147,7 +162,16 @@ describe('ServeMe Sessions',function()
         }).to.throwException();
 
         done();
-    });*/
+
+        ServeMe = require("..")({
+            session:
+            {
+                enabled: true,
+                persistence: false,
+                lifetime: 86400
+            }
+        });
+    });
 
     it('can create a session', function(done)
     {
