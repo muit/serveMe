@@ -31,6 +31,9 @@ ServeMe = ServeMe({
          * Also prints more logs
         **/
 
+    log: true,
+        //If log is enabled the server reports all the files served and more information.
+
     home: "mypage.html",
         //home will change the default html file served ('index.html')
 
@@ -96,6 +99,12 @@ If you want to create your own event, you can activate it with:
 ```javascript
 ServeMe.call("event_name");
 ```
+
+## Issues
+
+Let me know your suggestions and bugs found to improve Serve-me [here!](https://github.com/muit/serveMe/issues)!
+
+[https://github.com/muit/serveMe/issues](https://github.com/muit/serveMe/issues)
 
 ## License
 
