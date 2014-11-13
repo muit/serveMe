@@ -82,7 +82,7 @@ ServeMe.Routes.reset("/hello");
 
 To add actions to specific events yo can use the ServeMe Events.
 ```javascript
-ServeMe.on"event_name", function(data){
+ServeMe.on("event_name", function(data){
     console.log("I am an event!");
 });
 ```
