@@ -15,10 +15,8 @@ var options = {
         enabled: true
     }
 };
-//Load ServeMe
+// Load ServeMe
 ServeMe = ServeMe(options, port);
-
-//ATENTION: Actually working on it, may contain some bugs!
 
 var user     = "bear",
     password = "drowssap";
@@ -26,28 +24,34 @@ var user     = "bear",
 
 ServeMe.on("new_session", function(session)
 {
-    //Will be called each new session petition reaches.
+    // Will be called each new session petition reaches.
+    ServeMe.log("\nNew user...");
 
-    ServeMe.log("New user...");
-
-    //if user is correct & password too
+    // if user is correct & password too
     if(user == session.data.user && password == session.data.password)
     {
-        ServeMe.log("  Logged in.\n");
-        return true;//return true to accept the new session
+        ServeMe.log("  "+user+" has logged in.\n");
+        return true;// return true to accept the new session
     }
-    //else return false (or nothing)
+    // else return false (or nothing)
     ServeMe.log("  Couldn´t log in.\n");
     return false;
 });
 /**A session will be created visiting that url:
+ * Name: 'bear'
+ * Password: 'drowssap'
  * localhost:3000/session?user=bear&password=drowssap
+ *
+ * If you look then the console, you can see how 'bear' has logged in.
  */
 
 ServeMe.on("session", function(session)
 {
-    ServeMe.log(session.data.user+" entered again!");
+    // Will be called each existing session enters.
+
+    // If you recharge the webpage before, this message will be printed.
+    ServeMe.log("\n  "+session.data.user+" entered again!");
 });
 
-//Start the server
+// Start the server
 ServeMe.start(port);
