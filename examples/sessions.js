@@ -23,23 +23,31 @@ ServeMe = ServeMe(options, port);
 var user     = "bear",
     password = "drowssap";
 
+
 ServeMe.on("new_session", function(session)
 {
+    //Will be called each new session petition reaches.
+
     ServeMe.log("New user...");
 
     //if user is correct & password too
     if(user == session.data.user && password == session.data.password)
     {
-        ServeMe.log("  Loged In\n");
-        return true;//return true to accept the new session.
+        ServeMe.log("  Logged in.\n");
+        return true;//return true to accept the new session
     }
-
-    ServeMe.log("  Couldn´t Log In\n");
+    //else return false (or nothing)
+    ServeMe.log("  Couldn´t log in.\n");
     return false;
 });
 /**A session will be created visiting that url:
  * localhost:3000/session?user=bear&password=drowssap
  */
 
+ServeMe.on("session", function(session)
+{
+    ServeMe.log(session.data.user+" entered again!");
+});
+
 //Start the server
-ServeMe.start();
+ServeMe.start(port);

@@ -155,7 +155,7 @@ describe('ServeMe Sessions',function()
         ServeMe = require("..");
 
         expect(function(){
-            new ServeMe.Session(0, {
+            new ServeMe.Session("0", {
                 path:   "/session/login",
                 domain: "localhost"
             });
@@ -175,7 +175,7 @@ describe('ServeMe Sessions',function()
 
     it('can create a session', function(done)
     {
-        var session = new ServeMe.Session(0, {
+        var session = new ServeMe.Session("0", {
             path:   "/session/login",
             domain: "localhost"
         });
@@ -186,7 +186,7 @@ describe('ServeMe Sessions',function()
 
     it('created sessions contains correct arguments', function(done)
     {
-        var session = new ServeMe.Session(0, {
+        var session = new ServeMe.Session("0", {
             path:   "/session/login",
             domain: "localhost"
         });
