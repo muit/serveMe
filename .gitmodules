@@ -1,3 +1,3 @@
-[submodule "source/utyl"]
-	path = source/utyl
-	url = https://github.com/muit/utyl
+[submodule "lib/utyl"]
+	path = lib/utyl
+	url = https://github.com/muit/utyl.git
