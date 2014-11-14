@@ -12,7 +12,10 @@ var options = {
     debug: false,
     log: true,
     session:{
-        enabled: true
+        enabled: true,
+        //OPTIONAL:
+        //Session url - Sessions will be created when any client visit this url.
+        new_session_url: "/session"
     }
 };
 // Load ServeMe
