@@ -8,7 +8,7 @@ var ServeMe = require('..');
 var port = 3000;
 var options = {
     debug: false,
-    log: false
+    log: true
 };
 
 //Lets count visits!
