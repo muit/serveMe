@@ -32,13 +32,13 @@ ServeMe = ServeMe({
         **/
 
     log: true,
-        //If log is enabled the server reports all the files served and more information.
+        //(Optional) If log is enabled the server reports all the files served and more information.
 
     home: "mypage.html",
-        //home will change the default html file served ('index.html')
+        //(Optional) home will change the html file served in "/" (by default: 'index.html')
 
     directory: "./www",
-        //home will change the default public folder ('./public')
+        //(Optional) directory will change the default public folder ('./public')
 
     error: {
         404: "404.html",
@@ -49,10 +49,10 @@ ServeMe = ServeMe({
         **/
     },
 
+    //(Optional)
     secure: false,
         //Will use https when enabled.
         //ATENTION: A key and a certificate must be provided.
-
     //By default serve-me will use:
     key: "./keys/key.pem",
     cert: "./keys/cert.pem",
@@ -98,6 +98,56 @@ These are the available events for now:
 If you want to create your own event, you can activate it with:
 ```javascript
 ServeMe.call("event_name");
+```
+
+## Sessions
+
+The sessions have been implemented to facilitate the creation of user sessions or similar tasks, mainly using cookies.
+
+First of all we need to enable sessions in the serveme options:
+```javascript
+ServeMe = ServeMe({
+    debug: false,
+    
+    sessions:{
+        enabled: true, //Enable sessions
+        persistence: true, //if false disables the lifetime, and the session never ends (default true)
+        lifetime: 86400, //Life of the session in seconds (default: 1 day)
+        new_session_url: "/session/new", //Url selected to create sessions 
+        //new session petition will be created each visit
+    }
+});
+```
+
+Then "session/new" will reqistry each visitor in a new session. But one more step is needed. To alow the customization of the session registry you can use the "new_session" event like this:
+```javascript
+var username = "bear",
+    password = "drowssap";
+ServeMe.on("new_session", function(new_session){
+    //new_session.data contains all the url arguments.
+    //Login example:
+    if( new_session.data.username == username &&
+        new_session.data.password == password)
+    {
+        //if there are the correct credentials allow a new session creation, returning true.
+        return true;
+    }
+    //else returning false.
+    return false;
+});
+```
+
+session.data contains all the url arguments, for example a session request like
+```javascript
+/session/new?user=bear&password=drowssap
+```
+
+will give us that session.data:
+```javascript
+>{
+>    user: "bear",
+>    password: "drowssap"
+>}
 ```
 
 ## Issues
