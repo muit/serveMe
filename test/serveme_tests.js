@@ -1,12 +1,12 @@
-var request = require('request');
-var expect = require('expect.js');
-var urlParser = require('url');
+var request   = require('request'),
+    expect        = require('expect.js'),
+    urlParser    = require('url');
 
 describe('ServeMe HttpServer', function(){
     var ServeMe;
 
     before(function(done){
-        ServeMe = require("..")();
+        ServeMe = require("..")({log: false});
         done();
     });
 
@@ -27,7 +27,6 @@ describe('ServeMe HttpServer', function(){
     after(function ()
     {
         ServeMe.stop();
-        ServeMe = undefined;
     });
 });
 
@@ -38,7 +37,7 @@ describe('ServeMe Routes',function()
 
     before(function(done)
     {
-        ServeMe = require("..")();
+        ServeMe = require("..")({log:false});
         done();
     });
 
@@ -101,9 +100,11 @@ describe('ServeMe Routes',function()
         expect(ServeMe.Routes._hashIds).to.be.ok();
         done();
     });
-
+    
     it('says Hello!', function(done)
     {
+        ServeMe.stop();
+        ServeMe = require("..")({log: false});
         ServeMe.start(3000);
 
         ServeMe.Routes.add("/hello",function(){
@@ -121,18 +122,18 @@ describe('ServeMe Routes',function()
     after(function ()
     {
         ServeMe.stop();
-        ServeMe = undefined;
     });
 });
 
 
-describe('ServeMe Sessions',function()
+describe('ServeMe Sessions', function()
 {
     var ServeMe;
 
     before(function(done)
     {
         ServeMe = require("..")({
+            log: false,
             session:
             {
                 enabled: true,
@@ -199,6 +200,5 @@ describe('ServeMe Sessions',function()
     after(function ()
     {
         ServeMe.stop();
-        ServeMe = undefined;
     });
 });
