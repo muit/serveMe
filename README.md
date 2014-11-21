@@ -139,13 +139,13 @@ ServeMe.on("new_session", function(new_session){
 
 session.data contains all the url arguments, for example a session request like
 ```javascript
-/session/new?user=bear&password=drowssap
+/session/new?username=bear&password=drowssap
 ```
 
 will give us that session.data:
 ```javascript
 >{
->    user: "bear",
+>    username: "bear",
 >    password: "drowssap"
 >}
 ```
