@@ -2,7 +2,7 @@ var request = require('request');
 var expect = require('expect.js');
 var urlParser = require('url');
 
-describe('ServeMe HttpServer',function(){
+describe('ServeMe HttpServer', function(){
     var ServeMe;
 
     before(function(done){
