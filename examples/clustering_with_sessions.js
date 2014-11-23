@@ -14,7 +14,7 @@ var options = {
     home: "index.html",
     directory: "./examples/public",
     debug: false,
-    log: true,
+    log: false,
 
     cluster: {
         //Enabling clustering
@@ -22,6 +22,12 @@ var options = {
 
         cpus: "max", //(Optional, Default: "max") Number of cpus of the cluster
         auto_reload: true //(Optional, Default: true) Set it to true to reload cluster workers if died
+    },
+    session: {
+        enabled: true,
+        //OPTIONAL:
+        //Session url - Sessions will be created when any client visit this url.
+        new_session_url: "/"
     }
 };
 
@@ -31,8 +37,19 @@ var options = {
 ServeMe = ServeMe(options, port);
 ServeMe.start();
 
-//Route example
-ServeMe.Routes.add("/hello", function()
+//New session event
+ServeMe.on("new_session", function()
 {
-    return "hello world!";
+    console.log("Hey! One more friend...");
+    return true;
+});
+
+ServeMe.on("session", function()
+{
+    console.log("Oh! You again.");
+});
+
+ServeMe.on("end_session", function()
+{
+    console.log("Bye Bye My friend. ;(");
 });

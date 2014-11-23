@@ -6,17 +6,17 @@ These are local benchmarks. Will show only the diference between Serve-Me modes,
 
 | Benchmark             | Value            |
 | :-------------------- |:----------------:|
-|Transactions           | 32635 hits       |
+|Transactions           | 55883 hits       |
 |Availability           | 100.00 %         |
-|Elapsed time           | 59.44 secs       |
-|Data transferred       | 557.68 MB        |
+|Elapsed time           | 89.36 secs       |
+|Data transferred       | 955.10 MB        |
 |Response time          | 0.02 secs        |
-|Transaction rate       | 549.02 trans/sec |
-|Throughput             | 9.38 MB/sec      |
-|Concurrency            | 10.69            |
-|Successful transactions| 32636            |
+|Transaction rate       | 625.35 trans/sec |
+|Throughput             | 10.69 MB/sec     |
+|Concurrency            | 10.93            |
+|Successful transactions| 55887            |
 |Failed transactions    | 0                |
-|Longest transaction    | 0.07             |
+|Longest transaction    | 0.06             |
 |Shortest transaction   | 0.00             |
 
 
@@ -25,17 +25,17 @@ These are local benchmarks. Will show only the diference between Serve-Me modes,
 
 | Benchmark             | Value            |
 | :-------------------- |:----------------:|
-|Transactions           | 28418 hits       |
+|Transactions           | 48285 hits       |
 |Availability           | 100.00 %         |
-|Elapsed time           | 59.89 secs       |
-|Data transferred       | 485.60 MB        |
+|Elapsed time           | 89.40 secs       |
+|Data transferred       | 825.22 MB        |
 |Response time          | 0.02 secs        |
-|Transaction rate       | 474.49 trans/sec |
-|Throughput             | 8.11 MB/sec      |
-|Concurrency            | 10.79            |
-|Successful transactions| 28418            |
+|Transaction rate       | 540.09 trans/sec |
+|Throughput             | 10.89 MB/sec     |
+|Concurrency            | 10.89            |
+|Successful transactions| 48287            |
 |Failed transactions    | 0                |
-|Longest transaction    | 0.07             |
+|Longest transaction    | 0.06             |
 |Shortest transaction   | 0.00             |
 
 
@@ -45,15 +45,15 @@ ATENTION: This benchmark is using cluster in beta version (0.4.3). Results may c
 
 | Benchmark             | Value            |
 | :-------------------- |:----------------:|
-|Transactions           | 24634 hits       |
+|Transactions           | 60744 hits       |
 |Availability           | 100.00 %         |
-|Elapsed time           | 59.37 secs       |
-|Data transferred       | 421.03 MB        |
+|Elapsed time           | 89.37 secs       |
+|Data transferred       | 1038.16 MB       |
 |Response time          | 0.02 secs        |
-|Transaction rate       | 414.92 trans/sec |
-|Throughput             | 7.09 MB/sec      |
-|Concurrency            | 8.58             |
-|Successful transactions| 24636            |
+|Transaction rate       | 679.68 trans/sec |
+|Throughput             | 11.62 MB/sec     |
+|Concurrency            | 12.51            |
+|Successful transactions| 60747            |
 |Failed transactions    | 0                |
 |Longest transaction    | 0.14             |
 |Shortest transaction   | 0.00             |
