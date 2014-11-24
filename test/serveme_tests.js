@@ -49,7 +49,7 @@ describe('ServeMe Routes',function()
         };
         ServeMe.Routes.add(name, callback);
 
-        expect(ServeMe.Routes._hashIds[name]).to.be(callback);
+        expect(ServeMe.Routes._hashIds[name].callback).to.be(callback);
         done();
     });
 
@@ -57,7 +57,7 @@ describe('ServeMe Routes',function()
     {
         var name = "/testget";
 
-        expect(ServeMe.Routes.get(name)).to.be(undefined);
+        expect(ServeMe.Routes.take(name)).to.be(undefined);
         done();
     });
 
@@ -69,7 +69,7 @@ describe('ServeMe Routes',function()
         };
         ServeMe.Routes.add(name, callback);
 
-        expect(ServeMe.Routes.get(name)).to.be(callback);
+        expect(ServeMe.Routes.take(name).callback).to.be(callback);
         done();
     });
 
@@ -84,7 +84,7 @@ describe('ServeMe Routes',function()
         expect(function(){
             ServeMe.Routes.reset(name);
         }).not.to.throwException();
-        expect(ServeMe.Routes.get(name)).to.be(undefined);
+        expect(ServeMe.Routes.take(name)).to.be(undefined);
         done();
     });
 

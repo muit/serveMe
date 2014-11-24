@@ -1,6 +1,6 @@
 {
   "name": "serve-me",
-  "version": "0.5.1",
+  "version": "0.5.12",
   "description": "Simple NodeJs web server API.",
   "license": "MIT",
   "repository": {
