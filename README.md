@@ -73,6 +73,17 @@ ServeMe.Routes.add("/hello", function(){
 });
 ```
 
+To create get or post method routes, you can use these methods:
+```javascript
+ServeMe.Routes.get("/", function(){
+    return "Using a get method!";
+});
+
+ServeMe.Routes.post("/", function(){
+    return "Using a post method!";
+});
+```
+
 Delete a route example:
 ```javascript
 ServeMe.Routes.reset("/hello");
@@ -108,12 +119,12 @@ First of all we need to enable sessions in the serveme options:
 ```javascript
 ServeMe = ServeMe({
     debug: false,
-    
+
     sessions:{
         enabled: true, //Enable sessions
         persistence: true, //if false disables the lifetime, and the session never ends (default true)
         lifetime: 86400, //Life of the session in seconds (default: 1 day)
-        new_session_url: "/session/new", //Url selected to create sessions 
+        new_session_url: "/session/new", //Url selected to create sessions
         //new session petition will be created each visit
     }
 });
@@ -148,6 +159,28 @@ will give us that session.data:
 >    username: "bear",
 >    password: "drowssap"
 >}
+```
+
+## Cluster
+Cluster if the functionality that allows serve-me to run in multi-threading mode.
+
+It must be enabled in the initial options:
+```javascript
+ServeMe = require("serve-me");
+
+ServeMe = ServeMe({
+    cluster: {
+        // Enabling cluster
+        enabled: true,
+
+        // Amount of cpus that will be used. By default is "max".
+        cpus: "max"
+
+        // 'cpus' needs to be a number. If not it will be the maximum amount of cpus ("max")
+    },
+});
+
+ServeMe.start(3000);
 ```
 
 ## Issues
