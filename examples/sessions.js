@@ -34,7 +34,8 @@ ServeMe.on("new_session", function(session)
     if(user == session.data.user && password == session.data.password)
     {
         ServeMe.log("  "+user+" has logged in.\n");
-        return true;// return true to accept the new session
+        return "logged in";// return true or a string to accept the new session
+        //The string returned will be the response data.
     }
     // else return false (or nothing)
     ServeMe.log("  Couldn´t log in.\n");
