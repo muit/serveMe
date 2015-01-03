@@ -25,13 +25,13 @@ var user     = "bear",
     password = "drowssap";
 
 
-ServeMe.on("new_session", function(session)
+ServeMe.on("new_session", function(evt)
 {
     // Will be called each new session petition reaches.
     ServeMe.log("\nNew user...");
 
     // if user is correct & password too
-    if(user == session.data.user && password == session.data.password)
+    if(user == session.data.user && password == evt.session.data.password)
     {
         ServeMe.log("  "+user+" has logged in.\n");
         return "logged in";// return true or a string to accept the new session
@@ -49,12 +49,12 @@ ServeMe.on("new_session", function(session)
  * If you look then the console, you can see how 'bear' has logged in.
  */
 
-ServeMe.on("session", function(session)
+ServeMe.on("session", function(evt)
 {
     // Will be called each existing session enters.
 
     // If you recharge the webpage before, this message will be printed.
-    ServeMe.log("\n  "+session.data.user+" entered again!");
+    ServeMe.log("\n  "+evt.session.data.user+" entered again!");
 });
 
 // Start the server
