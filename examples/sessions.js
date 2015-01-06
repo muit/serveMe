@@ -15,7 +15,8 @@ var options = {
         enabled: true,
         //OPTIONAL:
         //Session url - Sessions will be created when any client visit this url.
-        new_session_url: "/login"
+        new_session_url: "/login",
+        global_path: true
     }
 };
 // Load ServeMe
@@ -56,7 +57,7 @@ ServeMe.on("session", function(evt)
     // Will be called each existing session enters.
 
     // If you recharge the webpage before, this message will be printed.
-    ServeMe.log("\n  "+session.data.username+" entered again!");
+    ServeMe.log("  "+session.data.username+" entered again!");
     return "Hi again, "+session.data.username;
 });
 

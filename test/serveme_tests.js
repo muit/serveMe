@@ -100,7 +100,7 @@ describe('ServeMe Routes',function()
         expect(ServeMe.Routes._hashIds).to.be.ok();
         done();
     });
-    
+
     it('says Hello!', function(done)
     {
         ServeMe.stop();
@@ -189,10 +189,10 @@ describe('ServeMe Sessions', function()
     {
         var session = new ServeMe.Session("0", {
             path:   "/session/login",
-            domain: "localhost"
+            domain: "mysite.com"
         });
         expect(session.path).to.be("/session/login");
-        expect(session.domain).to.be("localhost");
+        expect(session.domain).to.be("mysite.com");
 
         done();
     });
