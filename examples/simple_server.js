@@ -7,11 +7,10 @@ var ServeMe = require('..');
 //*******************************
 var port = 3000;
 var options = {
-    home: "index.html",
-    directory: "./examples/public",
-    debug: false,
-    log: true,
-    secure: false
+  directory: "./examples/public",
+  debug: false,
+  log: true,
+  secure: false
 };
 
 //Start the Server
@@ -19,13 +18,11 @@ ServeMe = ServeMe(options, port);
 ServeMe.start();
 
 //Route example
-ServeMe.Routes.add("/hello", function()
-{
-    return "hello world!";
+ServeMe.Routes.add("/hello", function() {
+  return "hello world!";
 });
 
 //Event example
-ServeMe.on("http_request", function()
-{
-    console.log("Hey! One more friend...");
+ServeMe.on("http_request", function() {
+  console.log("Hey! One more friend...");
 });

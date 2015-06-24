@@ -7,17 +7,17 @@ var ServeMe = require('..');
 //*******************************
 var port = 3000;
 var options = {
-    debug: false,
-    log: true
+  directory: "./examples/public"
+  debug: false,
+  log: true,
 };
 
 //Lets count visits!
 var counter = 0;
 
-ServeMe.Routes.add("/", function()
-{
-    counter += 1;
-    return ""+counter;
+ServeMe.Routes.add("/", function() {
+  counter += 1;
+  return "" + counter;
 });
 //Each time localhost:3000/ is visited the counter value is shown.
 

@@ -1,6 +1,6 @@
 /*************************
  *Clustering Example
-*************************/
+ *************************/
 
 //Require serve-me package
 var ServeMe = require('..');
@@ -11,7 +11,6 @@ var ServeMe = require('..');
 //*******************************
 var port = 3000;
 var options = {
-    home: "index.html",
     directory: "./examples/public",
     debug: false,
     log: true,
@@ -32,7 +31,6 @@ ServeMe = ServeMe(options, port);
 ServeMe.start();
 
 //Route example
-ServeMe.Routes.add("/hello", function()
-{
+ServeMe.Routes.add("/hello", function() {
     return "hello world!";
 });
