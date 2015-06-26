@@ -7,21 +7,32 @@ var ServeMe = require('..');
 //*******************************
 var port = 3000;
 var options = {
-  directory: "./examples/public"
+  directory: "./examples/public",
   debug: false,
   log: true,
 };
 
+//Start the server
+var server = ServeMe(options, port);
+
 //Lets count visits!
 var counter = 0;
 
-ServeMe.Routes.add("/", function() {
+server.routes.get("/", function() {
   counter += 1;
   return "" + counter;
 });
 //Each time localhost:3000/ is visited the counter value is shown.
 
+//You can use dynamic routes now.
+server.routes.get("/user/:name", function(params) {
+  return "This is the page of "+params.name;
+});
+//Visit localhost:3000/user/victor to see his page. ;)
 
-//Start the server
-ServeMe = ServeMe(options, port);
-ServeMe.start();
+//You can use even multiple dynamic routes
+server.routes.get("/user/:name/profile/:id", function(params) {
+  return "This is the profile of "+params.name+ " with id " + params.id;
+});
+
+server.start();

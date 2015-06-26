@@ -14,15 +14,15 @@ var options = {
 };
 
 //Start the Server
-ServeMe = ServeMe(options, port);
-ServeMe.start();
+var serveMe = ServeMe(options, port);
+serveMe.start();
 
 //Route example
-ServeMe.Routes.add("/hello", function() {
+serveMe.routes.get("/hello", function() {
   return "hello world!";
 });
 
 //Event example
-ServeMe.on("http_request", function() {
+serveMe.on("http_request", function() {
   console.log("Hey! One more friend...");
 });

@@ -10,7 +10,7 @@ var options = {
     home: "index.html",
     directory: "./examples/public",
     debug: false,
-    log: true,
+    log: false,
     session: {
         enabled: true,
         //OPTIONAL:
@@ -20,25 +20,25 @@ var options = {
     }
 };
 // Load ServeMe
-ServeMe = ServeMe(options, port);
+var serveMe = ServeMe(options, port);
 
 var username = "bear",
     password = "drowssap";
 
 
-ServeMe.on("new_session", function(evt) {
+serveMe.on("new_session", function(evt) {
     var session = evt.session;
     // Will be called each new session petition reaches.
-    ServeMe.log("\nNew user...");
-    ServeMe.log(session.data);
+    serveMe.log("\nNew user...");
+    serveMe.log(session.data);
     // if user is correct & password too
     if (username == session.data.username && password == session.data.password) {
-        ServeMe.log("  " + session.data.username + " has logged in.\n");
+        serveMe.log("  " + session.data.username + " has logged in.\n");
         return "Happy to see you " + session.data.username; // return true or a string to accept the new session
         //The string returned will be the response data.
     }
     // else return false (or nothing)
-    ServeMe.log("  Couldn't log in.\n");
+    serveMe.log("  Couldn't log in.\n");
     return false;
 });
 /**A session will be created visiting that url:
@@ -49,14 +49,14 @@ ServeMe.on("new_session", function(evt) {
  * If you look then the console, you can see how 'bear' has logged in.
  */
 
-ServeMe.on("session", function(evt) {
+serveMe.on("session", function(evt) {
     var session = evt.session;
     // Will be called each existing session enters.
 
     // If you recharge the webpage before, this message will be printed.
-    ServeMe.log("  " + session.data.username + " entered again!");
+    serveMe.log("  " + session.data.username + " entered again!");
     return "Hi again, " + session.data.username;
 });
 
 // Start the server
-ServeMe.start(port);
+serveMe.start(port);

@@ -27,10 +27,10 @@ var options = {
 //ATENTION: Cluster functionality stills in development. Its stability is limited.
 
 //Start the Server
-ServeMe = ServeMe(options, port);
-ServeMe.start();
+var serveMe = ServeMe(options, port);
+serveMe.start();
 
 //Route example
-ServeMe.Routes.add("/hello", function() {
+serveMe.routes.get("/hello", function() {
     return "hello world!";
 });

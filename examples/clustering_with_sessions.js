@@ -34,19 +34,19 @@ var options = {
 //ATENTION: Cluster functionality stills in development. Its stability is limited.
 
 //Start the Server
-ServeMe = ServeMe(options, port);
-ServeMe.start();
+var serveMe = ServeMe(options, port);
+serveMe.start();
 
 //New session event
-ServeMe.on("new_session", function() {
+serveMe.on("new_session", function() {
     console.log("Hey! One more friend...");
     return true;
 });
 
-ServeMe.on("session", function() {
+serveMe.on("session", function() {
     console.log("Oh! You again.");
 });
 
-ServeMe.on("end_session", function() {
+serveMe.on("end_session", function() {
     console.log("Bye Bye My friend. ;(");
 });

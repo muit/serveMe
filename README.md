@@ -25,7 +25,7 @@ The options can be set in the ServeMe loading, but by default it will use the fo
 ServeMe = require("serve-me");
 
 //Set the options
-ServeMe = ServeMe({
+var serveMe = ServeMe({
     debug: true,
         /**If debug mode is enabled, it will load each file again every http request, else the files will wait in cache.
          * Also prints more logs
@@ -59,7 +59,7 @@ ServeMe = ServeMe({
 });
 
 //Start the server
-ServeMe.start(3000);//3000 is the port. Of course you can change it.
+serveMe.start(3000);//3000 is the port. Of course you can change it.
 ```
 
 ## Routes
@@ -68,32 +68,46 @@ To add specific actions to url paths ServeMe includes Routes.
 
 Create a route example:
 ```javascript
-ServeMe.Routes.add("/hello", function(){
+serveMe.routes.get("/hello", function(){
     return "Hello World!";
 });
 ```
 
-To create get or post method routes, you can use these methods:
+To create get, post, update or other method routes, you can use this functions:
 ```javascript
-ServeMe.Routes.get("/", function(){
+serveMe.routes.get("/", function(){
     return "Using a get method!";
 });
 
-ServeMe.Routes.post("/", function(){
+serveMe.routes.post("/", function(){
     return "Using a post method!";
 });
 ```
+### Dynamic routes
+Since v0.7.3 the dynamic routes are implemented. And.. nothing is better than some examples. 
 
-Delete a route example:
 ```javascript
-ServeMe.Routes.reset("/hello");
+serveMe.routes.get("/user/:name", function(params){
+    return "This is the profile of " + params.name;
+});
+
+serveMe.routes.get("/posts/:id", function(params){
+    return "Post with id " + params.id;
+});
+```
+With the dynamic routes you can have a dinamic content and rest api applications running easily on serve-me.
+
+
+For specific uses you can reset all the routes:
+```javascript
+serveMe.routes.reset();
 ```
 
 ## Events
 
 To add actions to specific events yo can use the ServeMe Events.
 ```javascript
-ServeMe.on("event_name", function(data){
+serveMe.on("event_name", function(data){
     console.log("I am an event!");
 });
 ```
@@ -108,7 +122,7 @@ These are the available events for now:
 
 If you want to create your own event, you can activate it with:
 ```javascript
-ServeMe.call("event_name");
+serveMe.call("event_name");
 ```
 
 ## Sessions
@@ -117,7 +131,7 @@ The sessions have been implemented to facilitate the creation of user sessions o
 
 First of all we need to enable sessions in the serveme options:
 ```javascript
-ServeMe = ServeMe({
+var serveMe = ServeMe({
     debug: false,
 
     sessions:{
@@ -132,9 +146,10 @@ ServeMe = ServeMe({
 
 Then "session/new" will reqistry each visitor in a new session. But one more step is needed. To alow the customization of the session registry you can use the "new_session" event like this:
 ```javascript
-var username = "bear",
-    password = "drowssap";
-ServeMe.on("new_session", function(new_session){
+var username = "bear";
+var password = "drowssap";
+
+serveMe.on("new_session", function(new_session){
     //new_session.data contains all the url arguments.
     //Login example:
     if( new_session.data.username == username &&
@@ -168,7 +183,7 @@ It must be enabled in the initial options:
 ```javascript
 ServeMe = require("serve-me");
 
-ServeMe = ServeMe({
+var serveMe = ServeMe({
     cluster: {
         // Enabling cluster
         enabled: true,
@@ -180,7 +195,7 @@ ServeMe = ServeMe({
     },
 });
 
-ServeMe.start(3000);
+serveMe.start(3000);
 ```
 
 ## Issues

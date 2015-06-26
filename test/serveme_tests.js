@@ -1,188 +1,191 @@
 var request = require('request'),
-    expect = require('expect.js'),
-    urlParser = require('url');
+  expect = require('expect.js'),
+  urlParser = require('url');
 
 describe('ServeMe HttpServer', function() {
-    var ServeMe;
+  var ServeMe;
 
-    before(function(done) {
-        ServeMe = require("..")({
-            log: false
-        });
-        done();
-    });
+  before(function(done) {
+    server = require("..")({
+      log: false
+    }, 3000);
+    done();
+  });
 
-    it('can be loaded', function(done) {
-        expect(ServeMe).not.to.be(undefined);
-        expect(ServeMe.server).not.to.be(undefined);
+  it('can be loaded', function(done) {
+    expect(server).not.to.be(undefined);
+    expect(server.server).not.to.be(undefined);
 
-        done();
-    });
+    done();
+  });
 
-    it('can be started', function(done) {
-        expect(ServeMe.start(3000)).not.to.be(null);
-        done();
-    });
+  it('can be started', function(done) {
+    expect(server.start()).not.to.be(null);
+    done();
+  });
 
-    after(function() {
-        ServeMe.stop();
-    });
+  it('can be reseted', function(done) {
+    expect(function() {
+      server.reset();
+    }).not.to.throwException();
+    done();
+  });
+
+  after(function() {
+    server.stop();
+  });
 });
 
 
 describe('ServeMe Routes', function() {
-    var ServeMe;
+  var server;
 
-    before(function(done) {
-        ServeMe = require("..")({
-            log: false
-        });
-        done();
+  before(function(done) {
+    server = require("..")({
+      log: false
+    }, 3000);
+    done();
+  });
+
+  it('can add a route and gets the correct callback', function(done) {
+    var callback = function() {
+      return "added a route";
+    };
+    server.routes.get("/api/user", callback);
+
+    expect(server.routes.routeDB.api.user.data.callback).to.be(callback);
+    done();
+  });
+
+  it('can´t get an uncreated route', function(done) {
+    console.log()
+    expect(server.routes.take("/usel")).to.be(undefined);
+    done();
+  });
+
+  it('can get a created route', function(done) {
+    var callback = function() {
+      return "got a route";
+    };
+    server.routes.get("/textget", callback);
+
+    expect(server.routes.take("/textget").callback).to.be(callback);
+    done();
+  });
+
+  /* Decreaped
+  it('can reset a route', function(done) {
+    var name = "/";
+
+    server.routes.get(name, function() {
+      return "got a route";
     });
 
-    it('can add a route', function(done) {
-        var name = "/testadd",
-            callback = function() {
-                return "added a route";
-            };
-        ServeMe.Routes.add(name, callback);
+    expect(function() {
+      server.routes.reset(name);
+    }).not.to.throwException();
+    expect(server.routes.take(name)).to.be(undefined);
+    done();
+  });
+  */
 
-        expect(ServeMe.Routes._hashIds[name].callback).to.be(callback);
-        done();
+  it('can reset all routes', function(done) {
+    server.routes.get("/foo", function() {
+      return "got a route";
     });
 
-    it('can´t get an uncreated route', function(done) {
-        var name = "/testget";
+    expect(function() {
+      server.routes.reset("all");
+    }).not.to.throwException();
+    expect(server.routes.routeDB).to.be.ok();
+    done();
+  });
 
-        expect(ServeMe.Routes.take(name)).to.be(undefined);
-        done();
+  it('can receive a route message', function(done) {
+    server.reset();
+
+    server.routes.get("/hello", function() {
+      return "Hello World";
     });
 
-    it('can get a created route', function(done) {
-        var name = "/testget",
-            callback = function() {
-                return "got a route";
-            };
-        ServeMe.Routes.add(name, callback);
-
-        expect(ServeMe.Routes.take(name).callback).to.be(callback);
-        done();
+    request.get('http://localhost:' + 3000 + '/hello', function(err, res, body) {
+      console.log(err);
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal("Hello World");
+      done();
     });
+  });
 
-    it('can reset a route', function(done) {
-        var name = "/";
-
-        ServeMe.Routes.add(name, function() {
-            return "got a route";
-        });
-
-        expect(function() {
-            ServeMe.Routes.reset(name);
-        }).not.to.throwException();
-        expect(ServeMe.Routes.take(name)).to.be(undefined);
-        done();
-    });
-
-    it('can reset all routes', function(done) {
-        ServeMe.Routes.add("foo", function() {
-            return "got a route";
-        });
-
-        expect(function() {
-            ServeMe.Routes.reset("all");
-        }).not.to.throwException();
-        expect(ServeMe.Routes._hashIds).to.be.ok();
-        done();
-    });
-
-    it('says Hello!', function(done) {
-        ServeMe.stop();
-        ServeMe = require("..")({
-            log: false
-        });
-        ServeMe.start(3000);
-
-        ServeMe.Routes.add("/hello", function() {
-            return "Hello World";
-        });
-
-        request.get('http://localhost:' + 3000 + '/hello', function(err, res, body) {
-            expect(res.statusCode).to.equal(200);
-            expect(res.body).to.equal("Hello World");
-            done();
-        });
-    });
-
-    after(function() {
-        ServeMe.stop();
-    });
+  after(function() {
+    server.stop();
+  });
 });
 
 
 describe('ServeMe Sessions', function() {
-    var ServeMe;
+  var ServeMe;
 
-    before(function(done) {
-        ServeMe = require("..")({
-            log: false,
-            session: {
-                enabled: true,
-                persistence: false,
-                lifetime: 86400
-            }
-        });
-        done();
+  before(function(done) {
+    ServeMe = require("..")({
+      log: false,
+      session: {
+        enabled: true,
+        persistence: false,
+        lifetime: 86400
+      }
     });
+    done();
+  });
 
-    it('exists', function(done) {
-        expect(ServeMe.Session).not.to.be(undefined);
-        done();
+  it('exists', function(done) {
+    expect(ServeMe.Session).not.to.be(undefined);
+    done();
+  });
+
+  it('cant create a session whitout loading Sessions', function(done) {
+    ServeMe.stop();
+    ServeMe = require("..");
+
+    expect(function() {
+      new ServeMe.Session("0", {
+        path: "/session/login",
+        domain: "localhost"
+      });
+    }).to.throwException();
+
+    done();
+
+    ServeMe = require("..")({
+      session: {
+        enabled: true,
+        persistence: false,
+        lifetime: 86400
+      }
     });
+  });
 
-    it('cant create a session whitout loading Sessions', function(done) {
-        ServeMe.stop();
-        ServeMe = require("..");
-
-        expect(function() {
-            new ServeMe.Session("0", {
-                path: "/session/login",
-                domain: "localhost"
-            });
-        }).to.throwException();
-
-        done();
-
-        ServeMe = require("..")({
-            session: {
-                enabled: true,
-                persistence: false,
-                lifetime: 86400
-            }
-        });
+  it('can create a session', function(done) {
+    var session = new ServeMe.Session("0", {
+      path: "/session/login",
+      domain: "localhost"
     });
+    expect(session).to.be.a(ServeMe.Session);
 
-    it('can create a session', function(done) {
-        var session = new ServeMe.Session("0", {
-            path: "/session/login",
-            domain: "localhost"
-        });
-        expect(session).to.be.a(ServeMe.Session);
+    done();
+  });
 
-        done();
+  it('created sessions contains correct arguments', function(done) {
+    var session = new ServeMe.Session("0", {
+      path: "/session/login",
+      domain: "mysite.com"
     });
+    expect(session.path).to.be("/session/login");
+    expect(session.domain).to.be("mysite.com");
 
-    it('created sessions contains correct arguments', function(done) {
-        var session = new ServeMe.Session("0", {
-            path: "/session/login",
-            domain: "mysite.com"
-        });
-        expect(session.path).to.be("/session/login");
-        expect(session.domain).to.be("mysite.com");
+    done();
+  });
 
-        done();
-    });
-
-    after(function() {
-        ServeMe.stop();
-    });
+  after(function() {
+    ServeMe.stop();
+  });
 });
