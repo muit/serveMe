@@ -134,7 +134,7 @@ First of all we need to enable sessions in the serveme options:
 var serveMe = ServeMe({
     debug: false,
 
-    sessions:{
+    session:{
         enabled: true, //Enable sessions
         persistence: true, //if false disables the lifetime, and the session never ends (default true)
         lifetime: 86400, //Life of the session in seconds (default: 1 day)
