@@ -68,30 +68,59 @@ To add specific actions to url paths ServeMe includes Routes.
 
 Create a route example:
 ```javascript
-serveMe.routes.get("/hello", function(){
+serveMe.get("/hello", function(){
     return "Hello World!";
 });
 ```
 
-To create get, post, update or other method routes, you can use this functions:
+You can create get, post, update or other method routes, and add different behaviours to them.
 ```javascript
-serveMe.routes.get("/", function(){
-    return "Using a get method!";
+serveMe.get("/user", function(){
+    return "I get all the users";
 });
 
-serveMe.routes.post("/", function(){
-    return "Using a post method!";
+serveMe.post("/user", function(){
+    return "I create an user";
 });
 ```
+### Responding with custom status or json
+Just returning an object with some attributes, you will be able to customise your answer easily.
+```javascript
+serveMe.get("/api/profile", function(params){
+    return {
+        status: 404,
+
+        //return a json
+        json: {},
+        //or return a simple text
+        body: ""
+    };
+});
+```
+
+PD: You can anidate routes to have a simpler syntax.
+```javascript
+serveMe.get("/chicken", function(){
+    return "fried_chicken";
+})
+.post("/cat", function(){
+    return {
+        json: {
+            lives: 6
+        }
+    };
+})
+```
+
 ### Dynamic routes
 Since v0.7.3 the dynamic routes are implemented. And.. nothing is better than some examples. 
 
 ```javascript
-serveMe.routes.get("/user/:name", function(params){
+serveMe.get("/user/:name", function(params){
     return "This is the profile of " + params.name;
 });
 
-serveMe.routes.get("/posts/:id", function(params){
+serveMe.get("/posts/:id", function(params){
     return "Post with id " + params.id;
 });
 ```
