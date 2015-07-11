@@ -24,10 +24,15 @@ server.routes.get("/", function() {
 });
 //Each time localhost:3000/ is visited the counter value is shown.
 
-//You can use dynamic routes now.
-server.routes.get("/user/:name", function(params) {
-  return "This is the page of "+params.name;
+//You can use dynamic routes.
+server.routes.get("/user", function(params) {
+  return "All the users are here :3";
 });
+
+server.routes.post("/user", function(params) {
+  return "New user";
+});
+
 //Visit localhost:3000/user/victor to see his page. ;)
 
 //You can use even multiple dynamic routes
