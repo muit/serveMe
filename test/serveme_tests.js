@@ -53,13 +53,13 @@ describe('ServeMe Routes', function() {
     };
     server.routes.get("/api/user", callback);
 
-    expect(server.routes.routeDB.api.user.data.callback).to.be(callback);
+    expect(server.routes.routeDB.api.user.data.GET).to.be(callback);
     done();
   });
 
   it('can´t get an uncreated route', function(done) {
     console.log()
-    expect(server.routes.take("/usel")).to.be(undefined);
+    expect(server.routes.take("GET", "/user")).to.be(undefined);
     done();
   });
 
@@ -69,7 +69,7 @@ describe('ServeMe Routes', function() {
     };
     server.routes.get("/textget", callback);
 
-    expect(server.routes.take("/textget").callback).to.be(callback);
+    expect(server.routes.take("GET", "/textget").callback).to.be(callback);
     done();
   });
 
