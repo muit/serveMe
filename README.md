@@ -83,10 +83,28 @@ serveMe.post("/user", function(){
     return "I create an user";
 });
 ```
+
+Routes overview:
+```javascript
+serveMe.METHOD("path", function(request, next, response){
+    var result = "" //Direct response as text
+
+    result = { //Custom response
+        status: 200, //Result status
+        body: "", //Response as text
+        json: {}, //Response as json
+    }
+
+    next result; 
+    //or
+    return result;
+});
+```
+
 ### Responding with custom status or json
 Just returning an object with some attributes, you will be able to customise your answer easily.
 ```javascript
-serveMe.get("/api/profile", function(params){
+serveMe.get("/api/profile", function(request){
     return {
         status: 404,
 
@@ -116,12 +134,12 @@ serveMe.get("/chicken", function(){
 Since v0.7.3 the dynamic routes are implemented. And.. nothing is better than some examples. 
 
 ```javascript
-serveMe.get("/user/:name", function(params){
-    return "This is the profile of " + params.name;
+serveMe.get("/user/:name", function(req){
+    return "This is the profile of " + req.params.name;
 });
 
-serveMe.get("/posts/:id", function(params){
-    return "Post with id " + params.id;
+serveMe.get("/posts/:id", function(req){
+    return "Post with id " + req.params.id;
 });
 ```
 With the dynamic routes you can have a dinamic content and rest api applications running easily on serve-me.

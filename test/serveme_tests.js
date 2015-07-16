@@ -51,14 +51,13 @@ describe('ServeMe Routes', function() {
     var callback = function() {
       return "added a route";
     };
-    server.routes.get("/api/user", callback);
+    server.get("/api/user", callback);
 
     expect(server.routes.routeDB.api.user.data.GET).to.be(callback);
     done();
   });
 
   it('can´t get an uncreated route', function(done) {
-    console.log()
     expect(server.routes.take("GET", "/user")).to.be(undefined);
     done();
   });
@@ -95,7 +94,7 @@ describe('ServeMe Routes', function() {
     });
 
     expect(function() {
-      server.routes.reset("all");
+      server.routes.reset();
     }).not.to.throwException();
     expect(server.routes.routeDB).to.be.ok();
     done();
