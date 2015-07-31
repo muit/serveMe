@@ -58,7 +58,7 @@ describe('ServeMe Routes', function() {
   });
 
   it('can´t get an uncreated route', function(done) {
-    expect(server.routes.take("GET", "/user")).to.be(undefined);
+    expect(server.routes.take("GET", "/user")).to.be({});
     done();
   });
 
