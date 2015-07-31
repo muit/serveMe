@@ -58,7 +58,8 @@ describe('ServeMe Routes', function() {
   });
 
   it('can´t get an uncreated route', function(done) {
-    expect(server.routes.take("GET", "/user")).to.be({});
+    var route = server.routes.take("GET", "/user");
+    expect(isEmpty(route)).to.be(true);
     done();
   });
 
@@ -188,3 +189,11 @@ describe('ServeMe Sessions', function() {
     ServeMe.stop();
   });
 });
+
+function isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+}
