@@ -144,7 +144,13 @@ serveMe.get("/posts/:id", function(req){
 ```
 With the dynamic routes you can have a dinamic content and rest api applications running easily on serve-me.
 
+### Redirection Routes
+To link urls to a view or file, replace the "callback" of a route with the url:
+```javascript
+serveMe.get("/lobby", "/lobby.html");
+```
 
+### Reset
 For specific uses you can reset all the routes:
 ```javascript
 serveMe.routes.reset();

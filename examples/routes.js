@@ -54,4 +54,7 @@ server.get("/chicken", function(req, next) {
   });
 });
 
+//Create a fast redirection
+server.get("/lobby", "/lobby.html");
+
 server.start();
