@@ -86,7 +86,7 @@ serveMe.post("/user", function(){
 
 Routes overview:
 ```javascript
-serveMe.METHOD("path", function(request, next, response){
+serveMe.METHOD("path", function(request, response, next){
     var result = "" //Direct response as text
 
     result = { //Custom response
