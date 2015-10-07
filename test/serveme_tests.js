@@ -53,7 +53,7 @@ describe('ServeMe Routes', function() {
     };
     server.get("/api/user", callback);
 
-    expect(server.routes.routeDB.api.user.data.GET).to.be(callback);
+    expect(server.routes.routeDB.api.user._data.GET).to.be(callback);
     done();
   });
 
