@@ -47,29 +47,51 @@ describe('ServeMe Routes', function() {
     done();
   });
 
-  it('can add a route and gets the correct callback', function(done) {
+  it('can add a simple route and gets the callback', function(done) {
     var callback = function() {
       return "added a route";
     };
     server.get("/api/user", callback);
 
-    expect(server.routes.routeDB.api.user._data.GET).to.be(callback);
+    expect(server.routes.simpleRouteDB["/api/user"]._action.GET.callbacks[0])
+    .to.be(callback);
+    done();
+  });
+
+  it('can add a complex route and gets the callback', function(done) {
+    var callback = function() {
+      return "added a route";
+    };
+    server.get("/api/user/:name", callback);
+
+    expect(server.routes.complexRouteDB.api.user.param._action.GET.callbacks[0])
+    .to.be(callback);
     done();
   });
 
   it('can´t get an uncreated route', function(done) {
-    var route = server.routes.take("GET", "/user");
-    expect(isEmpty(route)).to.be(true);
+    var action = server.routes.take("GET", "/user");
+    expect(isEmpty(action)).to.be(true);
     done();
   });
 
-  it('can get a created route', function(done) {
+  it('can get a simple route', function(done) {
     var callback = function() {
-      return "got a route";
+      return "added a route";
     };
-    server.routes.get("/textget", callback);
+    server.get("/api/user", callback);
 
-    expect(server.routes.take("GET", "/textget").callback).to.be(callback);
+    expect(server.routes.take("GET", "/api/user").callbacks[0]).to.be(callback);
+    done();
+  });
+
+  it('can get a complex route', function(done) {
+    var callback = function() {
+      return "added a route";
+    };
+    server.get("/api/user/:name", callback);
+
+    expect(server.routes.take("GET", "/api/user/:name").callbacks[0]).to.be(callback);
     done();
   });
 
@@ -97,7 +119,8 @@ describe('ServeMe Routes', function() {
     expect(function() {
       server.routes.reset();
     }).not.to.throwException();
-    expect(server.routes.routeDB).to.be.ok();
+    expect(server.routes.simpleRouteDB).to.be.ok();
+    expect(server.routes.complexRouteDB).to.be.ok();
     done();
   });
 
