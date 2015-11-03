@@ -54,6 +54,17 @@ server.get("/chicken", function(req, next) {
   });
 });
 
+
+server.get("/index.html").require(
+  function() {
+    //Authenticated?
+    return false; 
+  }, 
+  function(req, res){ 
+    return "Cant enter here!";
+  }
+);
+
 //Create a fast redirection
 server.get("/lobby", "/lobby.html");
 

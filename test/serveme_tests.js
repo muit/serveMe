@@ -95,21 +95,25 @@ describe('ServeMe Routes', function() {
     done();
   });
 
-  /* Decreaped
-  it('can reset a route', function(done) {
-    var name = "/";
+  it('can require in a route', function(done) {
+    var callback = function() {
+      return "added a route";
+    };
 
-    server.routes.get(name, function() {
-      return "got a route";
-    });
+    var fail = function() {
+      return "added a fail route";
+    };
 
-    expect(function() {
-      server.routes.reset(name);
-    }).not.to.throwException();
-    expect(server.routes.take(name)).to.be(undefined);
+    server.get("/api/user", callback).require(
+    function(){
+      return true
+    }, fail);
+
+    expect(server.routes.take("GET", "/api/user").callbacks[0]).to.be(callback);
+    expect(server.routes.take("GET", "/api/user").fails[0]).to.be(fail);
+    
     done();
   });
-  */
 
   it('can reset all routes', function(done) {
     server.routes.get("/foo", function() {
@@ -132,7 +136,6 @@ describe('ServeMe Routes', function() {
     });
 
     request.get('http://localhost:' + 3000 + '/hello', function(err, res, body) {
-      console.log(err);
       expect(res.statusCode).to.equal(200);
       expect(res.body).to.equal("Hello World");
       done();
@@ -141,6 +144,46 @@ describe('ServeMe Routes', function() {
 
   after(function() {
     server.stop();
+  });
+
+  it('can success a require in a route', function(done) {
+    server.reset();
+    
+    var callback = function() { return "added a success route"; };
+
+    var fail = function() { return ""; };
+
+    server.get("/api", callback).require(
+    function(){
+      return true;
+    }, fail);
+
+    request.get('http://localhost:' + 3000 + '/api', function(err, res, body) {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal("added a success route");
+      done();
+    });
+  });
+
+  it('can fail a require in a route', function(done) {
+    server.reset();
+
+    var callback = function() { return ""; };
+
+    var fail = function() {
+      return "added a fail route";
+    };
+
+    server.get("/api", callback).require(
+    function(){
+      return false;
+    }, fail);
+
+    request.get('http://localhost:' + 3000 + '/api', function(err, res, body) {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal("added a fail route");
+      done();
+    });
   });
 });
 

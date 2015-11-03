@@ -150,6 +150,22 @@ To link urls to a view or file, replace the "callback" of a route with the url:
 serveMe.get("/lobby", "/lobby.html");
 ```
 
+### Require
+To make the development easier Serve-me have the require method, witch allows you to execute a route only in some situations.
+
+```javascript
+function fail(req, res, next) {
+    return "Failed";
+}
+
+serveMe.get("/profile", doSomething).require( function(){
+    //returns a boolean: true-> passed the require
+    return true;
+}, fail);
+```
+Fail will be calles when the require callback returns false.
+
+
 ### Reset
 For specific uses you can reset all the routes:
 ```javascript
@@ -177,6 +193,7 @@ If you want to create your own event, you can activate it with:
 ```javascript
 serveMe.call("event_name");
 ```
+
 
 ## Sessions
 
