@@ -3,6 +3,9 @@
   "version": "0.8.1",
   "description": "Simple NodeJs web server API.",
   "license": "MIT",
+  "engines": { 
+    "node": ">= 5.0.0" 
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/muit/serveMe"
