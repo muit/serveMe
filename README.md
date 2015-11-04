@@ -60,6 +60,11 @@ var serveMe = ServeMe({
 
 //Start the server
 serveMe.start(3000);//3000 is the port. Of course you can change it.
+
+//Also you can add a callback to wait for the server to start.
+serveMe.start(3000, function(){
+    console.log("Is Up!");
+});
 ```
 
 ## Routes
@@ -183,11 +188,12 @@ serveMe.on("event_name", function(data){
 "event_name" is the name required to select de action wanted.
 
 These are the available events for now:
-  - "http_request": Will be called each http connection.
-  - "new_session":  Will be called when a new session can be created.
-  - "end_session":  Will be called when an existing session lifetime ends.
-  - "session":      Will be called when an existing session connects.
-  - "error":        Will be called when an error appears.
+  - "listening":    Server is started and listening.
+  - "http_request": Each http connection.
+  - "new_session":  A new session can be created.
+  - "end_session":  An existing session lifetime ends.
+  - "session":      An existing session connects.
+  - "error":        An error appears.
 
 If you want to create your own event, you can activate it with:
 ```javascript
