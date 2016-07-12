@@ -111,7 +111,7 @@ describe('ServeMe Routes', function() {
 
     expect(server.routes.take("GET", "/api/user").callbacks[0]).to.be(callback);
     expect(server.routes.take("GET", "/api/user").fails[0]).to.be(fail);
-    
+
     done();
   });
 
@@ -148,7 +148,7 @@ describe('ServeMe Routes', function() {
 
   it('can success a require in a route', function(done) {
     server.reset();
-    
+
     var callback = function() { return "added a success route"; };
 
     var fail = function() { return ""; };
@@ -185,6 +185,39 @@ describe('ServeMe Routes', function() {
       done();
     });
   });
+
+  it('will set the correct content type for String data', function(done) {
+    server.reset();
+
+    server.routes.get("/hello", function() {
+      return "Hello World";
+    });
+
+    request.get('http://localhost:' + 3000 + '/hello', function(err, res, body) {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal("Hello World");
+      expect(res.headers['content-type']).to.equal('text/plain');
+      done();
+    });
+  });
+
+  it('will set the correct content type for JSON data', function(done) {
+    server.reset();
+
+    server.routes.get("/hello", function() {
+      return {
+        json: { test: true }
+      };
+    });
+
+    request.get('http://localhost:' + 3000 + '/hello', function(err, res, body) {
+      expect(res.statusCode).to.equal(200);
+      expect(res.body).to.equal('{"test":true}');
+      expect(res.headers['content-type']).to.equal('application/json');
+      done();
+    });
+  });
+
 });
 
 
