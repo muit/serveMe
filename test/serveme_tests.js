@@ -36,6 +36,54 @@ describe('ServeMe HttpServer', function() {
   });
 });
 
+describe('ServeMe config', function() {
+
+  before(function(done) {
+    process.env['SERVE_ME_TEST_ENV_VAR_IP'] = '192.168.1.1';
+    done();
+  });
+
+  after(function(done) {
+    process.env['SERVE_ME_TEST_ENV_VAR_IP'] = undefined;
+    done();
+  });
+
+  it('will load the hostname from an env variable', function(done) {
+    server = require("..")({
+      log: false,
+      hostname_env_var : 'SERVE_ME_TEST_ENV_VAR_IP'
+    }, 3000);
+    expect(server).not.to.be(undefined);
+    expect(server.server).not.to.be(undefined);
+    expect(server.config.hostname).to.be('192.168.1.1');
+
+    done();
+  });
+
+  it('will allow an undefined hostname', function(done) {
+    server = require("..")({
+      log: false
+    }, 3000);
+    expect(server).not.to.be(undefined);
+    expect(server.server).not.to.be(undefined);
+    expect(server.config.hostname).to.be(undefined);
+
+    done();
+  });
+
+  it('will use an undefined hostname if env var is not available', function(done) {
+    server = require("..")({
+      log: false,
+      hostname_env_var : 'SERVE_ME_TEST_ENV_VAR_IP_NOT_EXISTS'
+    }, 3000);
+    expect(server).not.to.be(undefined);
+    expect(server.server).not.to.be(undefined);
+    expect(server.config.hostname).to.be(undefined);
+
+    done();
+  });
+
+});
 
 describe('ServeMe Routes', function() {
   var server;
